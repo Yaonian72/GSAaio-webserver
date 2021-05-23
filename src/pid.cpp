@@ -20,8 +20,8 @@ bool v_status=0; //0 on 1 off
 
 void userSetFieldCb(char * field)
 {
-    // mySerial.print("4343420");
-    // mySerial.println();
+    // Serial.print("4343420");
+    // Serial.println();
       String fld = field;
   if( fld == F("KP")){
     kp = (float)webServer.getArgFloat();}
@@ -35,21 +35,21 @@ void userSetFieldCb(char * field)
     v_status = ((valve_status == F("on")) ? 0 : 1);
   }
 
-    // mySerial.print("4343420"); 
-    // mySerial.println();
+    // Serial.print("4343420"); 
+    // Serial.println();
 }
 
 void userLoadCb(char * url)
 {
-    // mySerial.print("024420");
-    // mySerial.println();
+    // Serial.print("024420");
+    // Serial.println();
     char buf[MAX_STR_LEN];
     webServer.setArgFloat(F("KP"), kp);
     webServer.setArgFloat(F("KI"), ki);
     webServer.setArgFloat(F("KD"), kd);
     webServer.setArgString(F("Valve Status"), (v_status == 0) ?  F("on") : F("off"));
-    // mySerial.print("4343420"); 
-    mySerial.println();
+    // Serial.print("4343420"); 
+    Serial.println();
 }
 
 void PIDInit()
@@ -63,18 +63,18 @@ void PIDInit()
 
 void printloop(){
     // webServer.setArgInt(F("KP"), (float)EEPROM[EEPROM_POS_KP]);
-    // mySerial.print((float)EEPROM[EEPROM_POS_KP]); 
+    // Serial.print((float)EEPROM[EEPROM_POS_KP]); 
     // webServer.setArgInt(F("KI"), (float)EEPROM[EEPROM_POS_KI]);
-    // mySerial.print((float)EEPROM[EEPROM_POS_KI]); 
+    // Serial.print((float)EEPROM[EEPROM_POS_KI]); 
     // webServer.setArgInt(F("KD"), (float)EEPROM[EEPROM_POS_KD]);
-    // mySerial.print((float)EEPROM[EEPROM_POS_KD]); 
-    // mySerial.print("4343420"); 
-    mySerial.print(ki);
-    mySerial.print(",");
-    mySerial.print(kp);
-    mySerial.print(",");
-    mySerial.print(kd);
-    mySerial.print(",");
-    mySerial.println();
+    // Serial.print((float)EEPROM[EEPROM_POS_KD]); 
+    // Serial.print("4343420"); 
+    Serial.print(ki);
+    Serial.print(",");
+    Serial.print(kp);
+    Serial.print(",");
+    Serial.print(kd);
+    Serial.print(",");
+    Serial.println();
     delay(50);
 }

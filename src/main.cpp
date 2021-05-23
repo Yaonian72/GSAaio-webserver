@@ -19,7 +19,7 @@ void resetCb(void) {
 void setup() {
   // put your setup code here, to run once:
   mySerial.begin(115200);
-  // Serial.begin(115200);
+  Serial.begin(115200);
   esp.resetCb = resetCb;
 
   //init
@@ -36,6 +36,6 @@ void loop() {
   // put your main code here, to run repeatedly:
   esp.Process();
   
-  delay(5);
+  delay(50);
   printloop();
 }
