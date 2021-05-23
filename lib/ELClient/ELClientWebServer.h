@@ -35,7 +35,7 @@ typedef struct URL_HANDLER
    }
    @endcode
    */
-  FP<void, char*>       loadCb;
+  FP<void,char*>       loadCb;
 
   /*! refreshCb()
    @brief Callback for HTML page refresh
@@ -53,7 +53,7 @@ typedef struct URL_HANDLER
    }
    @endcode
    */
-  FP<void, char*>       refreshCb;
+  FP<void,char*>       refreshCb;
 
   /*! buttonCb()
    @brief callback for setting a field from a HTML form
@@ -89,7 +89,7 @@ typedef struct URL_HANDLER
    }
    @endcode
    */
-  FP<void, char*>       setFieldCb;
+  FP<void,char*>       setFieldCb;
 
   /*! buttonCb()
    @brief callback for a HTML button press

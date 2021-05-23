@@ -5,13 +5,13 @@
 
 
 void resetCb(void) {
-  // Serial.println("EL-Client (re-)starting!");
+  Serial.println("EL-Client (re-)starting!");
   bool ok = false;
   do {
-    ok = esp.Sync();      // sync up with esp-link, blocks for up to 2 seconds
-    // if (!ok) Serial.println("EL-Client sync failed!");
+    ok = esp.Sync(100);      // sync up with esp-link, blocks for up to 2 seconds
+    if (!ok) Serial.println("EL-Client sync failed!");
   } while(!ok);
-  // Serial.println("EL-Client synced!");
+  Serial.println("EL-Client synced!");
   
   webServer.setup();
 }
