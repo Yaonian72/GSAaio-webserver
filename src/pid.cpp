@@ -18,11 +18,15 @@ float kd=0.01;
 bool v_status=0; //0 on 1 off
 
 
-void userSetFieldCb(char * field)
+void userSetFieldCb(const char * field)
 {
     // Serial.print("4343420");
     // Serial.println();
       String fld = field;
+  // Serial.println(fld);
+  // kp = (float)webServer.getArgFloat();
+  // ki = (float)webServer.getArgFloat();
+  // kd = (float)webServer.getArgFloat();
   if( fld == F("kp")){
     kp = (float)webServer.getArgFloat();}
   else if( fld == F("ki")){
@@ -35,11 +39,11 @@ void userSetFieldCb(char * field)
   //   v_status = ((valve_status == F("on")) ? 0 : 1);
   // }
 
-    // Serial.print("4343420"); 
-    // Serial.println();
+    Serial.print("4343"); 
+    Serial.println();
 }
 
-void userLoadCb(char * url)
+void userLoadCb(const char * url)
 {
     // Serial.print("024420");
     // Serial.println();
@@ -49,7 +53,7 @@ void userLoadCb(char * url)
     webServer.setArgFloat(F("kd"), kd);
     // webServer.setArgString(F("Valve Status"), (v_status == 0) ?  F("on") : F("off"));
     // Serial.print("4343420"); 
-    Serial.println();
+    Serial.println("4343420");
 }
 
 void ButtonPressCb(char * btnId)
@@ -60,7 +64,6 @@ void ButtonPressCb(char * btnId)
 
 void PIDInit()
 {
-
 
   URLHandler *pidPageHandler = webServer.createURLHandler(F("/Test10.html.json"));
   pidPageHandler->buttonCb.attach(&ButtonPressCb);
