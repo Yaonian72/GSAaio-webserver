@@ -1,46 +1,36 @@
 #include <Pages.h>
-#include <EEPROM.h>
 
-#define MAGIC 0xABEF
-#define MAX_STR_LEN  32
-
-// EEPROM content 
-#define EEPROM_POS_MAGIC          0
-#define EEPROM_POS_KP     (EEPROM_POS_MAGIC + 2)
-#define EEPROM_POS_KI      (EEPROM_POS_KP + MAX_STR_LEN)
-#define EEPROM_POS_KD            (EEPROM_POS_KI + MAX_STR_LEN)
-#define EEPROM_POS_VALVE_STATUS         (EEPROM_POS_KD+MAX_STR_LEN)
-#define EEPROM_POS_NOTIFICATIONS  (EEPROM_POS_VALVE_STATUS+MAX_STR_LEN)
-
-float kp=0.01;
-float ki=0.01;
-float kd=0.01;
-bool v_status=0; //0 on 1 off
+float a_kp=0.01;
+float a_ki=0.01;
+float a_kd=0.01;
+float f_kp=0.02;
+float f_ki=0.02;
+float f_kd=0.02;
+bool v_status=0; //1 on 0 off
+AppConfig p_speed ={30, 30};
 
 
 void userSetFieldCb(const char * field)
 {
-    // Serial.print("4343420");
-    // Serial.println();
-      String fld = field;
+  String fld = field;
   Serial.println(fld);
-  // kp = (float)webServer.getArgFloat();
-  // ki = (float)webServer.getArgFloat();
-  // kd = (float)webServer.getArgFloat();
-  if( fld == F("kp")){
-    kp = (float)webServer.getArgFloat();}
-  else if( fld == F("ki")){
-    ki = (float)webServer.getArgFloat();}
-  else if( fld == F("kd")){
-    kd = (float)webServer.getArgFloat();}
-  // else if( fld == F("Valve Status"))
-  // {
-  //   String valve_status = webServer.getArgString();
-  //   v_status = ((valve_status == F("on")) ? 0 : 1);
-  // }
+  if( fld == F("a_kp")){
+    a_kp = (float)webServer.getArgFloat();}
+  else if( fld == F("a_ki")){
+    a_ki = (float)webServer.getArgFloat();}
+  else if( fld == F("a_kd")){
+    a_kd = (float)webServer.getArgFloat();}
+  else if( fld == F("airspeed")){
+    p_speed.airspeed = (float)webServer.getArgInt();}
+  else if( fld == F("f_kp")){
+    f_kp = (float)webServer.getArgFloat();} 
+  else if( fld == F("f_ki")){
+    f_ki = (float)webServer.getArgFloat();}
+  else if( fld == F("f_kd")){
+    f_kd = (float)webServer.getArgFloat();}
+  else if( fld == F("fragspeed")){
+    p_speed.fragspeed = (float)webServer.getArgInt();}
 
-    Serial.print("4343"); 
-    Serial.println();
 }
 
 void userLoadCb(const char * url)
@@ -48,21 +38,37 @@ void userLoadCb(const char * url)
     // Serial.print("024420");
     // Serial.println();
     // char buf[MAX_STR_LEN];
-    webServer.setArgFloat(F("kp"), kp);
-    webServer.setArgFloat(F("ki"), ki);
-    webServer.setArgFloat(F("kd"), kd);
+    webServer.setArgFloat(F("a_kp"), a_kp);
+    webServer.setArgFloat(F("a_ki"), a_ki);
+    webServer.setArgFloat(F("a_kd"), a_kd);
+    webServer.setArgInt(F("airspeed"), p_speed.airspeed);
+    webServer.setArgFloat(F("f_kp"), f_kp);
+    webServer.setArgFloat(F("f_ki"), f_ki);
+    webServer.setArgFloat(F("f_kd"), f_kd);
+    webServer.setArgInt(F("fragspeed"), p_speed.fragspeed);
     // webServer.setArgString(F("Valve Status"), (v_status == 0) ?  F("on") : F("off"));
     // Serial.print("4343420"); 
     Serial.println("4343420");
 }
 
+// void ButtonPressCb(char * btnId)
+// {
+//         String fld = btnId;
+//   Serial.println(fld);
+//   Serial.println("Botton pressed!");
+// }
+
 void ButtonPressCb(char * btnId)
 {
-        String fld = btnId;
-  Serial.println(fld);
-  Serial.println("Botton pressed!");
+  String id = btnId;
+  mySerial.print(id);
+  if( id == F("Valve_on") )
+    v_status = 1;
+  else if( id == F("Valve_off") )
+    v_status = 0;
+  mySerial.print(v_status);
+  mySerial.println();
 }
-
 
 void PIDInit()
 {
@@ -75,20 +81,48 @@ void PIDInit()
   
 }
 
+void Byteprint(float f){
+
+  unsigned char const * p = reinterpret_cast<unsigned char const *>(&f);
+
+  for (std::size_t i = 0; i != sizeof(float); ++i)
+  {
+      mySerial.print(p[i]);
+  }
+}
+
 void printloop(){
-    // webServer.setArgInt(F("KP"), (float)EEPROM[EEPROM_POS_KP]);
-    // Serial.print((float)EEPROM[EEPROM_POS_KP]); 
-    // webServer.setArgInt(F("KI"), (float)EEPROM[EEPROM_POS_KI]);
-    // Serial.print((float)EEPROM[EEPROM_POS_KI]); 
-    // webServer.setArgInt(F("KD"), (float)EEPROM[EEPROM_POS_KD]);
-    // Serial.print((float)EEPROM[EEPROM_POS_KD]); 
-    // Serial.print("4343420"); 
-    Serial.print(ki);
+
+    Serial.print(a_ki);
     Serial.print(",");
-    Serial.print(kp);
+    Serial.print(a_kp);
     Serial.print(",");
-    Serial.print(kd);
+    Serial.print(a_kd);
     Serial.print(",");
     Serial.println();
-    delay(200);
+    
+    mySerial.print(a_ki);
+    mySerial.print(",");
+    mySerial.print(a_kp);
+    mySerial.print(",");
+    mySerial.print(a_kd);
+    mySerial.print(",");
+    mySerial.print(f_ki);
+    mySerial.print(",");
+    mySerial.print(f_kp);
+    mySerial.print(",");
+    mySerial.print(f_kd);
+    mySerial.print(",");
+    mySerial.print(p_speed.airspeed);
+    mySerial.print(",");
+    mySerial.print(p_speed.fragspeed);
+    mySerial.print(",");
+    mySerial.print(v_status);
+    // Byteprint(ki);
+    // // mySerial.print(",");
+    // Byteprint(a_kp);
+    // // mySerial.print(",");
+    // Byteprint(a_kd);
+    mySerial.println();
+    delay(400);
 }
