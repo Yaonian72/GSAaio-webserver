@@ -23,7 +23,7 @@ void userSetFieldCb(const char * field)
     // Serial.print("4343420");
     // Serial.println();
       String fld = field;
-  // Serial.println(fld);
+  Serial.println(fld);
   // kp = (float)webServer.getArgFloat();
   // ki = (float)webServer.getArgFloat();
   // kd = (float)webServer.getArgFloat();
@@ -58,6 +58,8 @@ void userLoadCb(const char * url)
 
 void ButtonPressCb(char * btnId)
 {
+        String fld = btnId;
+  Serial.println(fld);
   Serial.println("Botton pressed!");
 }
 
@@ -65,7 +67,7 @@ void ButtonPressCb(char * btnId)
 void PIDInit()
 {
 
-  URLHandler *pidPageHandler = webServer.createURLHandler(F("/Test10.html.json"));
+  URLHandler *pidPageHandler = webServer.createURLHandler(F("/pid.html.json"));
   pidPageHandler->buttonCb.attach(&ButtonPressCb);
   pidPageHandler->setFieldCb.attach(&userSetFieldCb);
   pidPageHandler->loadCb.attach(&userLoadCb);

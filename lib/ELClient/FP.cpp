@@ -596,5 +596,5 @@ template class FP<char*, char>;
 template class FP<char*, char*>;
 template class FP<char*, const char*>;
 
-
+template class FP<void, const char*>;
 

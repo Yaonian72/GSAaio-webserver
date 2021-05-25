@@ -110,7 +110,7 @@ typedef struct URL_HANDLER
    }
    @endcode
    */
-  FP<void, char*>       buttonCb;
+  FP<void,char*>       buttonCb;
   struct URL_HANDLER *  next;        ///< next handler
 } URLHandler;
 

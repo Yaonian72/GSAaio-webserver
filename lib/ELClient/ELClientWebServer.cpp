@@ -2,6 +2,8 @@
     \brief Constructor and functions for ELClientWebServer
 */
 #include "ELClientWebServer.h"
+// #include "FP.h"
+
 
 typedef enum {
   WS_LOAD=0,  // page first load
@@ -1128,3 +1130,4 @@ float ELClientWebServer::getArgFloat()
 {
   return atof(arg_ptr);
 }
+

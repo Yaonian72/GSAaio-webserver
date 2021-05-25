@@ -12,7 +12,12 @@
         "new": "cpp",
         "numeric": "cpp",
         "cmath": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "fstream": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp",
+        "sstream": "cpp",
+        "type_traits": "cpp"
     },
     "C_Cpp.default.includePath": [
         "C:/Users/Yao/Documents/Arduino/libraries/Adafruit_ADS1X15"
